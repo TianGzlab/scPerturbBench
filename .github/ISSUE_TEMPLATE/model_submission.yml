@@ -1,0 +1,156 @@
+name: 🧠 Model Submission
+description: Submit a new model for inclusion in the benchmark
+title: "[MODEL] "
+labels: ["model-submission", "needs-review"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for contributing a new model to scPerturbBench! Please provide the required information below.
+
+  - type: checkboxes
+    id: requirements
+    attributes:
+      label: Submission Requirements
+      description: Please confirm you have the following ready
+      options:
+        - label: Complete model implementation with training scripts
+          required: true
+        - label: Evaluation results on all benchmark tasks
+          required: true
+        - label: Documentation and usage examples
+          required: true
+        - label: All dependencies clearly specified
+          required: true
+
+  - type: input
+    id: model_name
+    attributes:
+      label: Model Name
+      description: Official name of the model
+      placeholder: e.g., scGPT, PerturbNet, MyModel
+    validations:
+      required: true
+
+  - type: input
+    id: paper_reference
+    attributes:
+      label: Paper Reference
+      description: Link to the paper or preprint
+      placeholder: https://arxiv.org/abs/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: model_description
+    attributes:
+      label: Model Description
+      description: Brief description of the model architecture and approach
+      placeholder: |
+        Describe the model type (e.g., transformer, VAE, GNN)
+        Key innovations or features
+        How it handles perturbation prediction
+    validations:
+      required: true
+
+  - type: dropdown
+    id: model_type
+    attributes:
+      label: Model Category
+      description: What type of model is this?
+      options:
+        - Transformer-based
+        - Variational Autoencoder (VAE)
+        - Generative Adversarial Network (GAN)
+        - Graph Neural Network (GNN)
+        - Traditional ML (Random Forest, etc.)
+        - Deep Neural Network (other)
+        - Hybrid/Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: tasks
+    attributes:
+      label: Supported Tasks
+      description: Which benchmark tasks does your model support?
+      options:
+        - label: Task 1 - Unseen Perturbation Prediction
+        - label: Task 2 - Combinatorial Perturbation Prediction
+        - label: Task 3 - Cell State Transfer
+
+  - type: textarea
+    id: performance
+    attributes:
+      label: Performance Summary
+      description: Summary of model performance on benchmark tasks
+      placeholder: |
+        Task 1 - Key metrics (e.g., Pearson correlation, MSE)
+        Task 2 - Performance scores (if applicable)
+        Task 3 - Generalization results (if applicable)
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and Requirements
+      description: List all required packages and versions
+      placeholder: |
+        Python >= 3.8
+        torch >= 1.12.0
+        scanpy >= 1.8.0
+        ...
+    validations:
+      required: true
+
+  - type: input
+    id: training_time
+    attributes:
+      label: Training Time
+      description: Approximate training time and computational requirements
+      placeholder: e.g., 4 hours on 1x V100 GPU
+
+  - type: input
+    id: inference_time
+    attributes:
+      label: Inference Time
+      description: Approximate inference time for predictions
+      placeholder: e.g., 10 seconds per 1000 cells
+
+  - type: textarea
+    id: code_location
+    attributes:
+      label: Code Location
+      description: Where can we find your implementation?
+      placeholder: |
+        GitHub repository: https://github.com/...
+        Branch/Tag: main
+        Or: "Will provide in PR"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: integration
+    attributes:
+      label: Integration Checklist
+      description: Confirm your submission meets integration requirements
+      options:
+        - label: Model follows the established API structure
+        - label: Training script is documented and runnable
+        - label: Model can be imported and used independently
+        - label: Code is well-commented and documented
+        - label: All evaluation metrics have been computed
+        - label: Model handles edge cases gracefully
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Any additional context or special considerations
+      placeholder: |
+        Special setup instructions
+        Known limitations
+        Comparison with existing models
+        Future improvements planned
