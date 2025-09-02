@@ -139,7 +139,7 @@ def compute_metrics(pred_data, true_data, ctrl_data):
         'MSE_delta': mean_squared_error(mean_true - mean_ctrl, mean_pred - mean_ctrl),
         'RMSE_delta': np.sqrt(mean_squared_error(mean_true - mean_ctrl, mean_pred - mean_ctrl)),
         'MAE_delta': mean_absolute_error(mean_true - mean_ctrl, mean_pred - mean_ctrl),
-        'Cosine_Similarity_delta': cosine_similarity([(mean_true - mean_ctrl)], [(pred_mean - mean_ctrl)])[0, 0],
+        'Cosine_Similarity_delta': cosine_similarity([(mean_true - mean_ctrl)], [(mean_pred - mean_ctrl)])[0, 0],
         'L2_delta': np.linalg.norm((mean_true - mean_ctrl) - (mean_pred - mean_ctrl)),
     })
 
