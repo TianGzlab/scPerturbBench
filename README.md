@@ -23,6 +23,11 @@ Our benchmark employs 24 comprehensive metrics organized into four categories:
 #### Model_predict_code: Model prediction implementations
 #### Figure: Generated figures and visualizations
 #### Plots: Code for generating plots
+#### .github：Continuous integration & community pull-request template
+
+## Acknowledge
+We acknowledge the support of the Data Science Platform of Guangzhou National Laboratory and the Bio-medical Big Data Operating System (Bio-OS). We thank Lead Healthcare.AI for their help on experiments. We also acknowledge Claude (Anthropic) for assistance with GitHub repository setup and code organization.
+
 
 ## Citation
 If you use this code or benchmark in your research, please cite:
