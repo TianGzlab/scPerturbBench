@@ -10,13 +10,14 @@ from typing import Counter
 import scipy.sparse
 
 
-def parse_conditions(conditions):
+def parse_task2_conditions(conditions):
     parsed_conditions = []
     for cond in conditions:
-        if "+" in cond:
-            A, B = cond.split("+")
-            A, B = A.strip(), B.strip()
-            parsed_conditions.append((A, B))
+        if "+" in cond and not cond.endswith("+ctrl"):
+            parts = cond.split("+")
+            if len(parts) == 2:  
+                A, B = parts[0].strip(), parts[1].strip()
+                parsed_conditions.append((A, B))
     return parsed_conditions
 
 
@@ -71,16 +72,18 @@ def sample_conditions(adata, condition_list, sample_size=32):
 
 
 def match_condition_with_genes(gene_names, condition):
-    if "+" in condition and "ctrl" not in condition:
+    if "+" in condition and not condition.endswith("+ctrl"):
         genes_in_condition = [gene.strip() for gene in condition.split("+")]
         match_vector = np.array([1 if gene in genes_in_condition else 0 for gene in gene_names], dtype=np.float32)
-    elif "+ctrl" in condition:
+    elif condition.endswith("+ctrl"):
         target_gene = condition.replace("+ctrl", "").strip()
         match_vector = np.array([1 if gene == target_gene else 0 for gene in gene_names], dtype=np.float32)
     else:
+
         target_gene = condition.strip()
         match_vector = np.array([1 if gene == target_gene else 0 for gene in gene_names], dtype=np.float32)
     
+
     matched_count = np.sum(match_vector)
     if matched_count == 0:
         print(f"Warning: No match found for condition '{condition}'")
@@ -102,7 +105,7 @@ class Task2ContextMeanBaseline:
                 if scipy.sparse.issparse(condition_data):
                     condition_data = condition_data.toarray()
                 all_train_data.append(condition_data)
-        
+
         if all_train_data:
             all_data = np.vstack(all_train_data)
             self.context_mean = np.mean(all_data, axis=0)
@@ -133,7 +136,7 @@ class Task2AdditivePerturbationMeanBaseline:
         for condition in train_conditions:
             if condition == 'ctrl':
                 continue
-            if '+ctrl' in condition:  
+            if condition.endswith('+ctrl'):
                 pert_name = condition.replace('+ctrl', '')
                 condition_data = adata[adata.obs['condition'] == condition].X
                 if condition_data.shape[0] > 0:
@@ -146,7 +149,7 @@ class Task2AdditivePerturbationMeanBaseline:
         predictions = {}
         
         for condition in target_conditions:
-            if '+' in condition and 'ctrl' not in condition:
+            if '+' in condition and not condition.endswith('+ctrl'):
                 parts = condition.split('+')
                 if len(parts) == 2:
                     A, B = parts
@@ -177,7 +180,7 @@ class Task2LinearBaseline:
     
     def __init__(self, gene_names):
         self.gene_names = gene_names
-        self.model = LinearRegression()
+        self.model = LinearRegression() 
     
     def fit(self, adata, train_conditions):
         X_train = []
@@ -197,7 +200,7 @@ class Task2LinearBaseline:
         
         X_train = np.array(X_train)
         y_train = np.array(y_train)
-        
+
         print(f"Training multi-output linear regression for {len(self.gene_names)} genes...")
         self.model.fit(X_train, y_train)
         print("Linear regression training completed!")
@@ -207,7 +210,7 @@ class Task2LinearBaseline:
         
         for condition in target_conditions:
             condition_encoding = match_condition_with_genes(self.gene_names, condition)
-            
+
             predicted_expr = self.model.predict([condition_encoding])[0]
             
             predictions[condition] = np.tile(predicted_expr, (sample_size, 1))
@@ -224,13 +227,23 @@ def run_task2_baselines(data_path, picklefile, picklefile_cond, output_base_path
     sample_size = Counter(adata.obs['condition'] == 'ctrl')[1]
 
     val_cond = pd.read_pickle(picklefile_cond)
-    val_cond = sum(val_cond['test_subgroup'].values(), [])
-    cond_to_predict = parse_conditions(val_cond)
+    all_test_conditions = sum(val_cond['test_subgroup'].values(), [])
+    cond_to_predict = parse_task2_conditions(all_test_conditions)
+    
+    print(f"All test conditions: {len(all_test_conditions)}")
+    print(f"Task2 combination conditions: {len(cond_to_predict)}")
+    print(f"Task2 conditions: {cond_to_predict}")
+    
+    if not cond_to_predict:
+        print("No Task2 combination conditions found. Exiting.")
+        return
+    
     cond_dict_pred = sample_conditions(adata, cond_to_predict, sample_size)
     
+
     train_conditions = split['train']
-    train_conditions.append('ctrl') 
-    
+    train_conditions.append('ctrl')  
+
     baselines = {}
     
     # Context Mean Baseline
@@ -250,21 +263,21 @@ def run_task2_baselines(data_path, picklefile, picklefile_cond, output_base_path
     linear_baseline = Task2LinearBaseline(gene_names)
     linear_baseline.fit(adata, train_conditions)
     baselines['linear_regression'] = linear_baseline
-    
+
     for A, B in cond_to_predict:
         condition_name = f"{A}+{B}" 
         print(f"Processing condition: {condition_name}")
         
+
         true_data = cond_dict_pred[condition_name]
         
         for baseline_name, baseline_model in baselines.items():
-
             predictions = baseline_model.predict([condition_name], sample_size)
             predicted_data = predictions[condition_name]
-            
+   
             baseline_output_path = os.path.join(output_base_path, baseline_name)
             os.makedirs(baseline_output_path, exist_ok=True)
-            
+
             true_file = os.path.join(baseline_output_path, f"{A}_{B}_true_values.npy")
             pred_file = os.path.join(baseline_output_path, f"{A}_{B}_predicted_values.npy")
             
@@ -273,7 +286,7 @@ def run_task2_baselines(data_path, picklefile, picklefile_cond, output_base_path
             
             print(f"{baseline_name} - True: {true_file}")
             print(f"{baseline_name} - Pred: {pred_file}")
-    
+
     for baseline_name in baselines.keys():
         baseline_output_path = os.path.join(output_base_path, baseline_name)
         gene_names_file = os.path.join(baseline_output_path, "gene_names.npy")
@@ -282,7 +295,7 @@ def run_task2_baselines(data_path, picklefile, picklefile_cond, output_base_path
 
 if __name__ == "__main__":
     dat_list=["dixitregev2016","normanweissman2019_filtered","sunshine2023_crispri_sarscov2","arce_mm_crispri_filtered"]
-    output_base_path = "/data2/lanxiang/perturb_benchmark_v2/model/Baseline_review/Task2/"
+    output_base_path = "/data2/lanxiang/perturb_benchmark_v2/SA_review/Round1/Baseline_review/Task2/"
     dat_path = '/data2/yue_data/pert/data'
     
     for dat in dat_list:
