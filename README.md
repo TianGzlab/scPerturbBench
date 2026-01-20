@@ -1,7 +1,8 @@
 # scPerturbBench
 This repository contains the code and resources for "A Systematic Comparison of Single-Cell Perturbation Response Prediction Models".
 A website hosting the data and the visualization can be viewed at: luyitian.github.io/PerturbArena
-<img width="1238" height="1518" alt="image" src="https://github.com/user-attachments/assets/76adb7ac-ec0c-423a-bbda-157c4bee6b5e" />
+<img width="1168" height="1416" alt="image" src="https://github.com/user-attachments/assets/9fe22bc9-7e68-4610-bf92-49e34134b2f0" />
+
 
 ## Tasks
 ### Task 1: Unseen Perturbation Prediction
