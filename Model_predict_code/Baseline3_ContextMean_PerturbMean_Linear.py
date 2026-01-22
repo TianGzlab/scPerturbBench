@@ -12,8 +12,10 @@ from sklearn.linear_model import LinearRegression
 class Task3ContextMeanBaseline:
     def __init__(self):
         self.celltype_context_means = {}
+        self.n_genes = None
     
     def fit(self, adata, target_celltype, available_conditions):
+        self.n_genes = adata.shape[1]
         celltype_data = []
 
         for condition in available_conditions:
@@ -40,7 +42,7 @@ class Task3ContextMeanBaseline:
             return np.tile(context_mean, (sample_size, 1))
         else:
             print(f"Warning: No context mean found for celltype {target_celltype}")
-            return np.zeros((sample_size, adata.shape[1]))
+            return np.zeros((sample_size, self.n_genes))
 
 
 class Task3PerturbationMeanBaseline:
