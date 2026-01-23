@@ -37,7 +37,7 @@ Use the corresponding scripts in `./Model_predict_code` to generate predictions.
 #### Step 3: Evaluate Predictions
 Compute evaluation metrics using the scripts provided in `./Metrics_code`.
 
-### Benchmark Execution
+### Benchmark Execution and Evaluation
 #### Step 1: Environment Setup
 Each model requires its own specific environment and dependencies. Please install the required environments for each model according to their official code repositories.
 #### Step 2: Run Benchmarking
