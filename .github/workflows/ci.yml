@@ -77,6 +77,9 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=__pycache__,.git
         
         echo "✅ No critical syntax errors found"
+
+    - name: Check git commit
+      run: git log -1 --oneline
     
     - name: Code style check (warnings only)
       run: |
@@ -86,6 +89,10 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics --exclude=__pycache__,.git || echo "Style warnings found but not blocking"
         
         echo "✅ Code style check completed"
+        
+    - name: Clean workspace
+      run: rm -rf ./Model_predict_code/__pycache__ ./Metrics_code/__pycache__ ./Plots/__pycache__
+
 
   model-discovery:
     runs-on: ubuntu-latest
