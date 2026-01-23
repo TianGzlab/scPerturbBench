@@ -1,0 +1,23 @@
+# Configuration file for benchmark pipeline
+# Update paths to match your local environment
+
+# Path to model prediction scripts
+model_scripts_dir: "../Model_predict_code"
+
+# Path to metrics computation scripts
+metrics_scripts_dir: "../Metrics_code"
+
+# Dataset paths - UPDATE THESE to your data locations
+task1:
+  data_dir: "./data/Task1_data"
+
+task2:
+  data_dir: "./data/Task2_data"
+
+task3:
+  data_dir: "./data/Task3_data"
+
+# Common settings
+control_label: "ctrl"
+cell_type_key: "cell_type"
+condition_key: "condition"

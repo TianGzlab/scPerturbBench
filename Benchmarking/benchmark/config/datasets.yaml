@@ -1,0 +1,32 @@
+# Dataset configuration
+# Defines dataset paths and metadata for each task
+
+# Path to original model prediction scripts
+# UPDATE THESE to match your repository structure
+model_scripts_dir: "../Model_predict_code"
+metrics_scripts_dir: "../Metrics_code"
+
+# Dataset paths by task
+# UPDATE THESE to match your data locations
+task1:
+  data_dir: "./data/Task1_data"
+  datasets:
+    - name: "Datlinger_2017"
+      file: "DatlingerBock2017.h5ad"
+
+task2:
+  data_dir: "./data/Task2_data"
+  datasets:
+    - name: "Norman"
+      file: "NormanWeissman2019_filtered.h5ad"
+task3:
+  data_dir: "./data/Task3_data"
+  datasets:
+    - name: "Kang"
+      file: "Kang.h5ad"
+      case_condition: "stimulated"
+
+# Common configuration
+control_label: "ctrl"
+cell_type_key: "cell_type"
+condition_key: "condition"

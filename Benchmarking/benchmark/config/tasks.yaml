@@ -1,0 +1,43 @@
+# Task-Model mapping configuration
+# Defines which models are applicable for each task
+
+task1:
+  name: "Task 1: Single Perturbation Response Prediction"
+  description: "Predict cellular response to single gene perturbations"
+  models:
+    - baseline1_contextmean_linear
+    - baseline1_mlp
+    - biolord
+    - gears
+    - perturbnet
+    - scelmo
+    - scfoundation
+    - scgpt
+
+task2:
+  name: "Task 2: Additive Perturbation Response Prediction"
+  description: "Predict cellular response to combinatorial perturbations"
+  models:
+    - baseline2_contextmean_additivemean_linear
+    - baseline2_mlp
+    - biolord
+    - cpa
+    - gears
+    - perturbnet
+    - scelmo
+    - scfoundation
+    - scgpt
+
+task3:
+  name: "Task 3: Context-Specific Perturbation Response Prediction"
+  description: "Predict cellular response to perturbations in specific cell types"
+  models:
+    - baseline3_contextmean_perturbmean_linear
+    - baseline3_mlp
+    - perturbnet_task3
+    - scgen
+    - scpram
+    - scpregan
+    - scvidr
+    - squidiff
+    - trvae

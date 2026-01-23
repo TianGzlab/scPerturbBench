@@ -1,0 +1,126 @@
+# Model configuration
+# Defines model metadata and their corresponding implementation files
+
+models:
+  # Task 1 Models
+  baseline1_contextmean_linear:
+    name: "Baseline1 ContextMean Linear"
+    script: "Baseline1_ContextMean_Linear.py"
+    metrics_script: "Baseline1_ContextMean_Linear_metrics.py"
+    tasks: [task1]
+
+  baseline1_mlp:
+    name: "Baseline1 MLP"
+    script: "Baseline1_MLP.py"
+    metrics_script: "Baseline1_2_MLP_metrics.py"
+    tasks: [task1]
+
+  biolord:
+    name: "BioLord"
+    script: "BioLord.py"
+    metrics_script: "BioLord_metrics.py"
+    tasks: [task1, task2]
+
+  gears:
+    name: "GEARS"
+    script: "GEARS.py"
+    metrics_script: "GEARS_metrics.py"
+    tasks: [task1, task2]
+
+  perturbnet:
+    name: "PerturbNet"
+    script: "PerturbNet.py"
+    metrics_script: "PerturbNet_metrics.py"
+    tasks: [task1, task2]
+
+  scelmo:
+    name: "scELMO"
+    script: "scELMO.py"
+    metrics_script: "scELMO_metrics.py"
+    tasks: [task1, task2]
+
+  scfoundation:
+    name: "scFoundation"
+    script: "scFoundation.py"
+    metrics_script: "scFoundation_metrics.py"
+    tasks: [task1, task2]
+
+  scgpt:
+    name: "scGPT"
+    script: "scGPT.py"
+    metrics_script: "scGPT_epoch2_metrics.py"
+    tasks: [task1, task2]
+
+  # Task 2 Models
+  baseline2_contextmean_additivemean_linear:
+    name: "Baseline2 ContextMean AdditiveMean Linear"
+    script: "Baseline2_ContextMean_AdditiveMean_Linear.py"
+    metrics_script: "Baseline2_ContextMean_AdditiveMean_Linear_metrics.py"
+    tasks: [task2]
+
+  baseline2_mlp:
+    name: "Baseline2 MLP"
+    script: "Baseline2_MLP.py"
+    metrics_script: "Baseline1_2_MLP_metrics.py"
+    tasks: [task2]
+
+  cpa:
+    name: "CPA"
+    script: "CPA.py"
+    metrics_script: "CPA_metrics.py"
+    tasks: [task2]
+
+  # Task 3 Models
+  baseline3_contextmean_perturbmean_linear:
+    name: "Baseline3 ContextMean PerturbMean Linear"
+    script: "Baseline3_ContextMean_PerturbMean_Linear.py"
+    metrics_script: "Baseline3_ContextMean_PerturbMean_Linear_metrics.py"
+    tasks: [task3]
+
+  baseline3_mlp:
+    name: "Baseline3 MLP"
+    script: "Baseline3_MLP.py"
+    metrics_script: "Baseline3_MLP_metrics.py"
+    tasks: [task3]
+
+  perturbnet_task3:
+    name: "PerturbNet Task3"
+    script: "PerturbNet_task3.py"
+    metrics_script: "PerturbNet_metrics.py"
+    tasks: [task3]
+
+  scgen:
+    name: "scGen"
+    script: "scGEN.py"
+    metrics_script: "scGEN_metrics.py"
+    tasks: [task3]
+
+  scpram:
+    name: "scPRAM"
+    script: "scPRAM.py"
+    metrics_script: "scPRAM_metrics.py"
+    tasks: [task3]
+
+  scpregan:
+    name: "scPreGAN"
+    script: "scPreGAN.py"
+    metrics_script: "scPreGAN_metrics.py"
+    tasks: [task3]
+
+  scvidr:
+    name: "scVIDR"
+    script: "scVIDR.py"
+    metrics_script: "scVIDR_metrics.py"
+    tasks: [task3]
+
+  squidiff:
+    name: "Squidiff"
+    script: "Squidiff.py"
+    metrics_script: "Squidiff_metrics.py"
+    tasks: [task3]
+
+  trvae:
+    name: "trVAE"
+    script: "trVAE.py"
+    metrics_script: "trVAE_metrics.py"
+    tasks: [task3]
